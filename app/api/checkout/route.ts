@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 
-export const corsHeaders = {
+const corsHeaders = {
   "Access-Control-Allow-Origin": `${process.env.ECOMMERCE_STORE_URL}`, // Ajuste isso para permitir apenas domínios específicos em produção
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
+// OPTIONS handler para lidar com preflight requests
 export async function OPTIONS() {
-  return NextResponse.json({}, { headers: corsHeaders });
+  return new NextResponse(null, { headers: corsHeaders });
 }
 
+// POST handler para criar a sessão de checkout
 export async function POST(req: NextRequest) {
   try {
     const { cartItems, customer } = await req.json();
@@ -51,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(session, { headers: corsHeaders });
   } catch (err) {
-    console.log("[checkout_POST]", err);
+    console.error("[checkout_POST]", err);
     return new NextResponse("Internal Server Error", {
       status: 500,
       headers: corsHeaders,
@@ -59,4 +61,5 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// Next.js runtime configuration
 export const dynamic = "force-dynamic";
