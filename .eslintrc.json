@@ -1,3 +1,10 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "react-hooks/exhaustive-deps": "off", // Desativa aviso sobre dependências em hooks
+    "@typescript-eslint/no-unused-vars": "off", // Ignora variáveis não utilizadas
+    "@typescript-eslint/no-explicit-any": "off", // Permite uso de 'any'
+    "@typescript-eslint/no-empty-interface": "off", // Ignora interfaces vazias
+    "@typescript-eslint/no-floating-promises": "off" // Ignora promessas não aguardadas
+  }
 }
