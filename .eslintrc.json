@@ -6,6 +6,7 @@
     "@typescript-eslint/no-explicit-any": "off", // Permite uso de 'any'
     "@typescript-eslint/no-empty-interface": "off", // Ignora interfaces vazias
     "@typescript-eslint/no-floating-promises": "off", // Ignora promessas não aguardadas
-    "@typescript-eslint/no-wrapper-object-types": "off"
+    "@typescript-eslint/no-wrapper-object-types": "off",
+    "@typescript-eslint/no-empty-object-type": "off"
   }
 }
