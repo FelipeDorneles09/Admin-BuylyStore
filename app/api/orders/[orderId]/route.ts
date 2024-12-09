@@ -17,7 +17,7 @@ export const GET = async (
     });
 
     if (!orderDetails) {
-      return new NextResponse(JSON.stringify({ message: "Not Found" }), {
+      return new NextResponse(JSON.stringify({ message: "Order Not Found" }), {
         status: 404,
       });
     }
