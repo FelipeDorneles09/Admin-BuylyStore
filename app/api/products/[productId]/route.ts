@@ -1,3 +1,4 @@
+import Category from "@/lib/models/Category";
 import Collection from "@/lib/models/Collection";
 import Product from "@/lib/models/Product";
 import { connectToDB } from "@/lib/mongoDB";
@@ -12,10 +13,16 @@ export const GET = async (
   try {
     await connectToDB();
 
-    const product = await Product.findById(params.productId).populate({
-      path: "collections",
-      model: Collection,
-    });
+    const product = await Product.findById(params.productId).populate([
+      {
+        path: "collections",
+        model: Collection,
+      },
+      {
+        path: "categories",
+        model: Category,
+      },
+    ]);
 
     if (!product) {
       return new NextResponse(
@@ -63,7 +70,7 @@ export const POST = async (
       title,
       description,
       media,
-      category,
+      categories,
       collections,
       tags,
       sizes,
@@ -72,32 +79,61 @@ export const POST = async (
       expense,
     } = await req.json();
 
-    if (!title || !description || !media || !category || !price || !expense) {
+    if (!title || !description || !media || !categories || !price || !expense) {
       return new NextResponse("Not enough data to create a new product", {
         status: 400,
       });
     }
 
-    const addedCollections = collections.filter(
-      (collectionId: string) => !product.collections.includes(collectionId)
-    );
-    // included in new data, but not included in the previous data
+    // Validar se `categories` e `collections` são arrays de strings
+    if (!Array.isArray(categories) || !Array.isArray(collections)) {
+      return new NextResponse(
+        "Categories and collections must be arrays of IDs",
+        { status: 400 }
+      );
+    }
 
-    const removedCollections = product.collections.filter(
+    // Mapear IDs para strings (caso estejam como objetos ou outros tipos)
+    const currentCategories = product.categories.map(String);
+    const currentCollections = product.collections.map(String);
+
+    const addedCategories = categories.filter(
+      (categoryId: string) => !currentCategories.includes(categoryId)
+    );
+
+    const removedCategories = currentCategories.filter(
+      (categoryId: string) => !categories.includes(categoryId)
+    );
+
+    const addedCollections = collections.filter(
+      (collectionId: string) => !currentCollections.includes(collectionId)
+    );
+
+    const removedCollections = currentCollections.filter(
       (collectionId: string) => !collections.includes(collectionId)
     );
-    // included in previous data, but not included in the new data
 
-    // Update collections
+    // Atualizar categorias no banco
     await Promise.all([
-      // Update added collections with this product
+      ...addedCategories.map((categoryId: string) =>
+        Category.findByIdAndUpdate(categoryId, {
+          $push: { products: product._id },
+        })
+      ),
+      ...removedCategories.map((categoryId: string) =>
+        Category.findByIdAndUpdate(categoryId, {
+          $pull: { products: product._id },
+        })
+      ),
+    ]);
+
+    // Atualizar coleções no banco
+    await Promise.all([
       ...addedCollections.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
           $push: { products: product._id },
         })
       ),
-
-      // Update removed collections without this product
       ...removedCollections.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
           $pull: { products: product._id },
@@ -105,14 +141,14 @@ export const POST = async (
       ),
     ]);
 
-    // Update product
+    // Atualizar o produto com os novos dados
     const updatedProduct = await Product.findByIdAndUpdate(
       product._id,
       {
         title,
         description,
         media,
-        category,
+        categories,
         collections,
         tags,
         sizes,
@@ -121,7 +157,10 @@ export const POST = async (
         expense,
       },
       { new: true }
-    ).populate({ path: "collections", model: Collection });
+    ).populate([
+      { path: "collections", model: Collection },
+      { path: "categories", model: Category },
+    ]);
 
     await updatedProduct.save();
 
@@ -160,6 +199,14 @@ export const DELETE = async (
     await Promise.all(
       product.collections.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
+          $pull: { products: product._id },
+        })
+      )
+    );
+
+    await Promise.all(
+      product.categories.map((categoryId: string) =>
+        Category.findByIdAndUpdate(categoryId, {
           $pull: { products: product._id },
         })
       )

@@ -1,7 +1,7 @@
 import { connectToDB } from "@/lib/mongoDB";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
-import Collection from "@/lib/models/Collection";
+import AboutUs from "@/lib/models/AboutUs";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -20,24 +20,16 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const existingCollection = await Collection.findOne({ title });
-    if (existingCollection) {
-      return new NextResponse(
-        JSON.stringify({ error: "Collection already exists" }),
-        { status: 400 }
-      );
-    }
-
-    const newCollection = new Collection({
+    const newAboutUs = new AboutUs({
       title,
       description,
       image,
     });
-    await newCollection.save();
+    await newAboutUs.save();
 
-    return NextResponse.json(newCollection, { status: 201 });
+    return NextResponse.json(newAboutUs, { status: 201 });
   } catch (err) {
-    console.error("[collections_POST]", err);
+    console.error("[aboutus_POST]", err);
     return new NextResponse(
       JSON.stringify({ error: "Internal Server Error" }),
       { status: 500 }
@@ -49,10 +41,17 @@ export const GET = async () => {
   try {
     await connectToDB();
 
-    const collections = await Collection.find().sort({ createdAt: -1 });
-    return NextResponse.json(collections, { status: 200 });
+    const aboutUs = await AboutUs.find(); // Encontrando todos os documentos
+    if (!aboutUs || aboutUs.length === 0) {
+      return new NextResponse(
+        JSON.stringify({ message: "About Us not found" }),
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(aboutUs, { status: 200 });
   } catch (err) {
-    console.error("[collections_GET]", err);
+    console.error("[aboutus_GET]", err);
     return new NextResponse(
       JSON.stringify({ error: "Internal Server Error" }),
       { status: 500 }
