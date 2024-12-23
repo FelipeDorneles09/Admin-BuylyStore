@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/lib/mongoDB";
 import Product from "@/lib/models/Product";
 import Collection from "@/lib/models/Collection";
+import Category from "@/lib/models/Category";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -19,7 +20,7 @@ export const POST = async (req: NextRequest) => {
       title,
       description,
       media,
-      category,
+      categories,
       collections,
       tags,
       sizes,
@@ -28,7 +29,7 @@ export const POST = async (req: NextRequest) => {
       expense,
     } = await req.json();
 
-    if (!title || !description || !media || !category || !price || !expense) {
+    if (!title || !description || !media || !categories || !price || !expense) {
       return new NextResponse("Not enough data to create a product", {
         status: 400,
       });
@@ -38,7 +39,7 @@ export const POST = async (req: NextRequest) => {
       title,
       description,
       media,
-      category,
+      categories,
       collections,
       tags,
       sizes,
@@ -59,6 +60,16 @@ export const POST = async (req: NextRequest) => {
       }
     }
 
+    if (categories) {
+      for (const categoryId of categories) {
+        const category = await Category.findById(categoryId);
+        if (category) {
+          category.products.push(newProduct._id);
+          await category.save();
+        }
+      }
+    }
+
     return NextResponse.json(newProduct, { status: 200 });
   } catch (err) {
     console.log("[products_POST]", err);
@@ -72,7 +83,8 @@ export const GET = async (req: NextRequest) => {
 
     const products = await Product.find()
       .sort({ createdAt: "desc" })
-      .populate({ path: "collections", model: Collection });
+      .populate({ path: "collections", model: Collection })
+      .populate({ path: "categories", model: Category });
 
     return NextResponse.json(products, { status: 200 });
   } catch (err) {

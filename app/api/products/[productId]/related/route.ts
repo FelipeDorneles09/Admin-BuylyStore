@@ -20,7 +20,7 @@ export const GET = async (
 
     const relatedProducts = await Product.find({
       $or: [
-        { category: product.category },
+        { categories: { $in: product.categories } },
         { collections: { $in: product.collections } },
       ],
       _id: { $ne: product._id },

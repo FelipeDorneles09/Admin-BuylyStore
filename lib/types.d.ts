@@ -11,7 +11,7 @@ type ProductType = {
   title: string;
   description: string;
   media: [string];
-  category: string;
+  categories: [CategoryType];
   collections: [CollectionType];
   tags: [string];
   sizes: [string];
@@ -41,4 +41,18 @@ type CustomerType = {
   clerkId: string;
   name: string;
   email: string;
+};
+
+type CategoryType = {
+  _id: string;
+  title: string;
+  image: string;
+  products: ProductType[];
+};
+
+type AboutUsType = {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
 };
