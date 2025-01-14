@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { auth } from "@clerk/nextjs/server";
-
 import { connectToDB } from "@/lib/mongoDB";
 import Category from "@/lib/models/Category";
 import Product from "@/lib/models/Product";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": `${process.env.ECOMMERCE_STORE_URL}`,
+  "Access-Control-Allow-Methods": "GET, POST, DELETE",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
 export const GET = async (
   req: NextRequest,
@@ -12,7 +17,10 @@ export const GET = async (
 ) => {
   try {
     if (!mongoose.isValidObjectId(params.categoryId)) {
-      return new NextResponse("Invalid category ID", { status: 400 });
+      return new NextResponse("Invalid category ID", {
+        status: 400,
+        headers: corsHeaders,
+      });
     }
 
     await connectToDB();
@@ -23,13 +31,19 @@ export const GET = async (
     });
 
     if (!category) {
-      return new NextResponse("Category not found", { status: 404 });
+      return new NextResponse("Category not found", {
+        status: 404,
+        headers: corsHeaders,
+      });
     }
 
-    return NextResponse.json(category, { status: 200 });
+    return NextResponse.json(category, { status: 200, headers: corsHeaders });
   } catch (err) {
     console.error("[categoryId_GET]", err);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Internal error", {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 };
 
@@ -41,11 +55,17 @@ export const POST = async (
     const { userId } = auth();
 
     if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", {
+        status: 401,
+        headers: corsHeaders,
+      });
     }
 
     if (!mongoose.isValidObjectId(params.categoryId)) {
-      return new NextResponse("Invalid category ID", { status: 400 });
+      return new NextResponse("Invalid category ID", {
+        status: 400,
+        headers: corsHeaders,
+      });
     }
 
     await connectToDB();
@@ -53,13 +73,19 @@ export const POST = async (
     let category = await Category.findById(params.categoryId);
 
     if (!category) {
-      return new NextResponse("Category not found", { status: 404 });
+      return new NextResponse("Category not found", {
+        status: 404,
+        headers: corsHeaders,
+      });
     }
 
     const { title, image } = await req.json();
 
     if (!title || !image) {
-      return new NextResponse("Title and image are required", { status: 400 });
+      return new NextResponse("Title and image are required", {
+        status: 400,
+        headers: corsHeaders,
+      });
     }
 
     category = await Category.findByIdAndUpdate(
@@ -68,10 +94,13 @@ export const POST = async (
       { new: true }
     );
 
-    return NextResponse.json(category, { status: 200 });
+    return NextResponse.json(category, { status: 200, headers: corsHeaders });
   } catch (err) {
     console.error("[categoryId_POST]", err);
-    return new NextResponse("Internal error", { status: 500 });
+    return new NextResponse("Internal error", {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 };
 
@@ -83,26 +112,35 @@ export const DELETE = async (
     const { userId } = auth();
 
     if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
-    if (!mongoose.isValidObjectId(params.categoryId)) {
-      return new NextResponse("Invalid category ID", { status: 400 });
+      return new NextResponse("Unauthorized", {
+        status: 403,
+        headers: corsHeaders,
+      });
     }
 
     await connectToDB();
 
-    await Category.findByIdAndDelete(params.categoryId);
+    const { categoryId } = params;
 
-    await Product.updateMany(
-      { categories: params.categoryId },
-      { $pull: { categories: params.categoryId } }
-    );
+    const deletedCategory = await Category.findByIdAndDelete(categoryId);
 
-    return new NextResponse("Category is deleted", { status: 200 });
+    if (!deletedCategory) {
+      return new NextResponse("Category not found", {
+        status: 404,
+        headers: corsHeaders,
+      });
+    }
+
+    return new NextResponse("Category deleted successfully", {
+      status: 200,
+      headers: corsHeaders,
+    });
   } catch (err) {
-    console.error("[categoryId_DELETE]", err);
-    return new NextResponse("Internal error", { status: 500 });
+    console.error("[categories_DELETE]", err);
+    return new NextResponse("Internal Server Error", {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 };
 

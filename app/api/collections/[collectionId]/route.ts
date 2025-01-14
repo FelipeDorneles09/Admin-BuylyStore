@@ -77,24 +77,29 @@ export const DELETE = async (
 ) => {
   try {
     const { userId } = auth();
+    console.log("User ID:", userId);
 
     if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 403 });
     }
 
     await connectToDB();
 
-    await Collection.findByIdAndDelete(params.collectionId);
+    const { collectionId } = params;
+    console.log("Deleting collection with ID:", collectionId);
 
-    await Product.updateMany(
-      { collections: params.collectionId },
-      { $pull: { collections: params.collectionId } }
-    );
+    // Tente encontrar e excluir a categoria
+    const deletedCollection = await Collection.findByIdAndDelete(collectionId);
+    console.log("Deleted Collection:", deletedCollection);
 
-    return new NextResponse("Collection is deleted", { status: 200 });
+    if (!deletedCollection) {
+      return new NextResponse("Collection not found", { status: 404 });
+    }
+
+    return new NextResponse("Collection deleted successfully", { status: 200 });
   } catch (err) {
-    console.log("[collectionId_DELETE]", err);
-    return new NextResponse("Internal error", { status: 500 });
+    console.error("[collections_DELETE]", err);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
 
