@@ -69,7 +69,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       });
       if (res.ok) {
         setLoading(false);
-        toast.success(`"Category ${initialData ? "updated." : "created."}  `);
+        toast.success(`"Category ${initialData ? "atualizada." : "criada."}  `);
         window.location.href = "/categories";
         router.push("/categories");
       }
@@ -83,11 +83,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     <div className="p-10">
       {initialData ? (
         <div className="flex items-center justify-between">
-          <p className="text-heading2-bold">Edit Category</p>
+          <p className="text-heading2-bold">Editar Categoria</p>
           <Delete id={initialData._id} item="categories" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create Category</p>
+        <p className="text-heading2-bold">Criar Categoria</p>
       )}
 
       <Separator className=" bg-grey-1 mt-4 mb-7" />
@@ -98,10 +98,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Título</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Title"
+                    placeholder="Título"
                     {...field}
                     onKeyDown={handleKeyPress}
                   />
@@ -115,7 +115,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>Imagem</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -129,14 +129,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
           />
           <div className="flex gap-10">
             <Button type="submit" className="bg-blue-1 text-white">
-              Submit
+              Salvar
             </Button>
             <Button
               type="button"
               className="bg-blue-1 text-white"
               onClick={() => router.push("/categories")}
             >
-              Discard
+              Discartar
             </Button>
           </div>
         </form>

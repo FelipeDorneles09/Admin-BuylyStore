@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       shipping_address_collection: {
         allowed_countries: ["BR"],
       },
-      shipping_options: [{ shipping_rate: "shr_1QB2yQA2JIivVP5ujr9cTRoj" }],
+      shipping_options: [{ shipping_rate: "shr_1QhGulA2JIivVP5up699euWw" }],
       line_items: cartItems.map((cartItem: any) => ({
         price_data: {
           currency: "brl",

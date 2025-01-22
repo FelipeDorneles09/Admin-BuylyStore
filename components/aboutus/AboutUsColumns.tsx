@@ -7,7 +7,7 @@ import Link from "next/link";
 export const columns: ColumnDef<AboutUsType>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Título",
     cell: ({ row }) => (
       <Link
         href={`/aboutus/${row.original._id}`} // Usando _id em vez de title
@@ -19,7 +19,7 @@ export const columns: ColumnDef<AboutUsType>[] = [
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: "Descrição",
     cell: ({ row }) => {
       const maxLength = 100; // Define o número máximo de caracteres para exibir
       const description = row.original.description;
