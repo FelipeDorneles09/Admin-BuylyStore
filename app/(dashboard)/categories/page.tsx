@@ -34,13 +34,13 @@ const Categories = () => {
   return (
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
-        <p className="text-heading2-bold">Categories</p>
+        <p className="text-heading2-bold">Categorias</p>
         <Button
           className="bg-blue-1 text-white"
           onClick={() => router.push("/categories/new")}
         >
           <Plus className="h-4 w-4 mr-2" />
-          Create Category
+          Criar Categoria
         </Button>
       </div>
       <Separator className="my-4 bg-grey-1" />

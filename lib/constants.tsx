@@ -10,36 +10,36 @@ export const navLinks = [
   {
     url: "/",
     icon: <LayoutDashboard />,
-    label: "Dashboard",
+    label: "Painel",
   },
   {
     url: "/collections",
     icon: <Shapes />,
-    label: "Collections",
+    label: "Coleções",
   },
   {
     url: "/categories",
     icon: <Shapes />,
-    label: "Categories",
+    label: "Categorias",
   },
   {
     url: "/aboutus",
     icon: <UsersRound />,
-    label: "About Us",
+    label: "Sobre nós",
   },
   {
     url: "/products",
     icon: <Tag />,
-    label: "Products",
+    label: "Produtos",
   },
   {
     url: "/orders",
     icon: <ShoppingBag />,
-    label: "Orders",
+    label: "Pedidos",
   },
   {
     url: "/customers",
     icon: <UsersRound />,
-    label: "Customers",
+    label: "Clientes",
   },
 ];

@@ -7,7 +7,7 @@ import Link from "next/link";
 export const columns: ColumnDef<CategoryType>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Título",
     cell: ({ row }) => (
       <Link
         href={`/categories/${row.original._id}`}
@@ -19,7 +19,7 @@ export const columns: ColumnDef<CategoryType>[] = [
   },
   {
     accessorKey: "products",
-    header: "Products",
+    header: "Produtos",
     cell: ({ row }) => <p>{row.original.products.length}</p>,
   },
   {

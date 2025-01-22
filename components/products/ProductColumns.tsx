@@ -7,7 +7,7 @@ import Link from "next/link";
 export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Título",
     cell: ({ row }) => (
       <Link href={`/products/${row.original._id}`} className="hover:text-red-1">
         {row.original.title}
@@ -16,23 +16,23 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "categories",
-    header: "Categories",
+    header: "Categorias",
     cell: ({ row }) =>
       row.original.categories.map((category) => category.title).join(", "),
   },
   {
     accessorKey: "collections",
-    header: "Collections",
+    header: "Coleções",
     cell: ({ row }) =>
       row.original.collections.map((collection) => collection.title).join(", "),
   },
   {
     accessorKey: "price",
-    header: "Price ($)",
+    header: "Preço (R$)",
   },
   {
     accessorKey: "expense",
-    header: "Expense ($)",
+    header: "Custo (R$)",
   },
   {
     id: "actions",

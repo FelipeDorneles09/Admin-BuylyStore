@@ -33,14 +33,16 @@ const AboutUs = () => {
   return (
     <div className="px-10 py-5">
       <div className="flex items-center justify-between">
-        <p className="text-heading2-bold">About Us</p>
-        <Button
-          className="bg-blue-1 text-white"
-          onClick={() => router.push("/aboutus/new")}
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          Create About Us
-        </Button>
+        <p className="text-heading2-bold">Sobre Nós</p>
+        {aboutUsItems.length === 0 && (
+          <Button
+            className="bg-blue-1 text-white"
+            onClick={() => router.push("/aboutus/new")}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Criar Sobre Nós
+          </Button>
+        )}
       </div>
       <Separator className="my-4 bg-grey-1" />
       <DataTable columns={columns} data={aboutUsItems} searchKey="title" />

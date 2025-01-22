@@ -72,7 +72,7 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ initialData }) => {
       });
       if (res.ok) {
         setLoading(false);
-        toast.success(`"About Us ${initialData ? "updated." : "created."}`);
+        toast.success(`"About Us ${initialData ? "atualizado." : "criado."}`);
         window.location.href = "/aboutus";
         router.push("/aboutus");
       }
@@ -86,11 +86,11 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ initialData }) => {
     <div className="p-10">
       {initialData ? (
         <div className="flex items-center justify-between">
-          <p className="text-heading2-bold">Edit About Us</p>
+          <p className="text-heading2-bold">Editar Sobre Nós</p>
           <Delete id={initialData._id} item="aboutus" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create About Us</p>
+        <p className="text-heading2-bold">Criar Sobre Nós</p>
       )}
 
       <Separator className=" bg-grey-1 mt-4 mb-7" />
@@ -101,10 +101,10 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ initialData }) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Título</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Title"
+                    placeholder="Título"
                     {...field}
                     onKeyDown={handleKeyPress}
                   />
@@ -118,10 +118,10 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ initialData }) => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Descrição</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Description"
+                    placeholder="Descrição"
                     {...field}
                     rows={5}
                     onKeyDown={handleKeyPress}
@@ -136,7 +136,7 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ initialData }) => {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>Imagem</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value ? [field.value] : []}
@@ -150,14 +150,14 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ initialData }) => {
           />
           <div className="flex gap-10">
             <Button type="submit" className="bg-blue-1 text-white">
-              Submit
+              Salvar
             </Button>
             <Button
               type="button"
               className="bg-blue-1 text-white"
               onClick={() => router.push("/aboutus")}
             >
-              Discard
+              Discartar
             </Button>
           </div>
         </form>

@@ -6,11 +6,11 @@ import Link from "next/link";
 export const columns: ColumnDef<CustomerType>[] = [
   {
     accessorKey: "clerkId",
-    header: "Clerk ID",
+    header: "ID do Usuário",
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Nome",
   },
   {
     accessorKey: "email",

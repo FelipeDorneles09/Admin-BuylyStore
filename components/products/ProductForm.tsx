@@ -133,7 +133,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       });
       if (res.ok) {
         setLoading(false);
-        toast.success(`Product ${initialData ? "updated" : "created"}`);
+        toast.success(`Product ${initialData ? "atualizado" : "criado"}`);
         window.location.href = "/products";
         router.push("/products");
       }
@@ -149,11 +149,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     <div className="p-10">
       {initialData ? (
         <div className="flex items-center justify-between">
-          <p className="text-heading2-bold">Edit Product</p>
+          <p className="text-heading2-bold">Editar Produto</p>
           <Delete id={initialData._id} item="product" />
         </div>
       ) : (
-        <p className="text-heading2-bold">Create Product</p>
+        <p className="text-heading2-bold">Criar Produto</p>
       )}
       <Separator className="bg-grey-1 mt-4 mb-7" />
       <Form {...form}>
@@ -163,10 +163,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Título</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Title"
+                    placeholder="Título"
                     {...field}
                     onKeyDown={handleKeyPress}
                   />
@@ -180,10 +180,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Descrição</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Description"
+                    placeholder="Descrição"
                     {...field}
                     rows={5}
                     onKeyDown={handleKeyPress}
@@ -198,7 +198,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
             name="media"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>Imagem</FormLabel>
                 <FormControl>
                   <ImageUpload
                     value={field.value}
@@ -221,11 +221,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price ($)</FormLabel>
+                  <FormLabel>Preço (R$)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Price"
+                      placeholder="Preço"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -239,11 +239,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="expense"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expense ($)</FormLabel>
+                  <FormLabel>Custo (R$)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
-                      placeholder="Expense"
+                      placeholder="Custo"
                       {...field}
                       onKeyDown={handleKeyPress}
                     />
@@ -258,10 +258,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 name="categories"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Categories</FormLabel>
+                    <FormLabel>Categorias</FormLabel>
                     <FormControl>
                       <MultiSelect2
-                        placeholder="Categories"
+                        placeholder="Categorias"
                         categories={categories}
                         value={field.value}
                         onChange={(_id) =>
@@ -309,10 +309,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 name="collections"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Collections</FormLabel>
+                    <FormLabel>Coleções</FormLabel>
                     <FormControl>
                       <MultiSelect
-                        placeholder="Collections"
+                        placeholder="Coleções"
                         collections={collections}
                         value={field.value}
                         onChange={(_id) =>
@@ -337,10 +337,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="colors"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Colors</FormLabel>
+                  <FormLabel>Cores</FormLabel>
                   <FormControl>
                     <MultiText
-                      placeholder="Colors"
+                      placeholder="Cores"
                       value={field.value}
                       onChange={(color) =>
                         field.onChange([...field.value, color])
@@ -363,10 +363,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               name="sizes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sizes</FormLabel>
+                  <FormLabel>Tamanhos</FormLabel>
                   <FormControl>
                     <MultiText
-                      placeholder="Sizes"
+                      placeholder="Tamanhos"
                       value={field.value}
                       onChange={(size) =>
                         field.onChange([...field.value, size])
@@ -388,14 +388,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
           <div className="flex gap-10">
             <Button type="submit" className="bg-blue-1 text-white">
-              Submit
+              Salvar
             </Button>
             <Button
               type="button"
               onClick={() => router.push("/products")}
               className="bg-blue-1 text-white"
             >
-              Discard
+              Discartar
             </Button>
           </div>
         </form>
