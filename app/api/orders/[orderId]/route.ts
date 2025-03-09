@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { orderId: String } }
+  { params }: { params: { orderId: string } }
 ) => {
   try {
     await connectToDB();
@@ -22,9 +22,31 @@ export const GET = async (
       });
     }
 
-    const customer = await Customer.findOne({
-      clerkId: orderDetails.customerClerkId,
-    });
+    // Arredondar o valor total para 2 casas decimais
+    orderDetails.totalAmount = parseFloat(orderDetails.totalAmount.toFixed(2));
+
+    // Buscar informações do cliente
+    let customer = null;
+    if (orderDetails.customerClerkId) {
+      customer = await Customer.findOne({
+        clerkId: orderDetails.customerClerkId,
+      });
+    }
+
+    // Se não encontrar o cliente pelo clerkId, use as informações de customerInfo
+    if (!customer && orderDetails.customerInfo) {
+      customer = {
+        name: orderDetails.customerInfo.name,
+        email: orderDetails.customerInfo.email,
+        phone: orderDetails.customerInfo.phone,
+        cpf: orderDetails.customerInfo.cpf,
+      };
+    }
+
+    // Definir o status (se não houver, considerar como "pago")
+    if (!orderDetails.status) {
+      orderDetails.status = "pago";
+    }
 
     return NextResponse.json({ orderDetails, customer }, { status: 200 });
   } catch (err) {

@@ -6,7 +6,7 @@ import Category from "@/lib/models/Category";
 import Product from "@/lib/models/Product";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": `${process.env.ECOMMERCE_STORE_URL}`,
+  "Access-Control-Allow-Origin": `${process.env.NEXT_PUBLIC_SITE_URL}`,
   "Access-Control-Allow-Methods": "GET, POST, DELETE",
   "Access-Control-Allow-Headers": "Content-Type",
 };

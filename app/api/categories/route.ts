@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Category from "@/lib/models/Category";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": `${process.env.ECOMMERCE_STORE_URL}`,
+  "Access-Control-Allow-Origin": `${process.env.NEXT_PUBLIC_SITE_URL}`,
   "Access-Control-Allow-Methods": "GET, POST",
   "Access-Control-Allow-Headers": "Content-Type",
 };

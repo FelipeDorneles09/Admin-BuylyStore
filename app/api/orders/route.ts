@@ -13,15 +13,35 @@ export const GET = async (req: NextRequest) => {
 
     const orderDetails = await Promise.all(
       orders.map(async (order) => {
-        const customer = await Customer.findOne({
-          clerkId: order.customerClerkId,
-        });
+        // Verificar se o customerClerkId existe e buscar o cliente
+        let customerName = "Cliente não identificado";
+
+        if (order.customerClerkId) {
+          const customer = await Customer.findOne({
+            clerkId: order.customerClerkId,
+          });
+
+          if (customer && customer.name) {
+            customerName = customer.name;
+          } else if (order.customerInfo && order.customerInfo.name) {
+            // Se não encontrar o cliente, use as informações do customerInfo
+            customerName = order.customerInfo.name;
+          }
+        }
+
+        // Arredondar o valor total para 2 casas decimais
+        const roundedTotal = parseFloat(order.totalAmount.toFixed(2));
+
+        // Definir o status (se não houver, considerar como "pago")
+        const status = order.status || "pago";
+
         return {
-          _id: order._id,
-          customer: customer.name,
+          _id: order._id.toString(),
+          customer: customerName,
           products: order.products.length,
-          totalAmount: order.totalAmount,
-          createdAt: format(order.createdAt, "MMM do, yyyy"),
+          totalAmount: roundedTotal,
+          status: status,
+          createdAt: format(new Date(order.createdAt), "MMM do, yyyy"),
         };
       })
     );
