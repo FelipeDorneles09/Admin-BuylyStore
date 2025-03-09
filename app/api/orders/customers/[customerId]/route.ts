@@ -10,10 +10,17 @@ export const GET = async (
   try {
     await connectToDB();
 
+    // Manter o nome do parâmetro como customerId para compatibilidade
     const orders = await Order.find({
       customerClerkId: params.customerId,
     }).populate({ path: "products.product", model: Product });
 
+    if (!orders || orders.length === 0) {
+      return NextResponse.json([], { status: 200 });
+    }
+
+    // Retornar diretamente os pedidos sem processamento adicional
+    // para manter compatibilidade com o código existente
     return NextResponse.json(orders, { status: 200 });
   } catch (err) {
     console.log("[customerId_GET]", err);

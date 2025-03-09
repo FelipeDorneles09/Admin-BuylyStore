@@ -24,6 +24,27 @@ export const columns: ColumnDef<OrderColumnType>[] = [
   {
     accessorKey: "totalAmount",
     header: "Total Amount",
+    cell: ({ row }) => (
+      <span>R$ {(row.original.totalAmount ?? 0).toFixed(2)}</span>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status || "pago";
+      return (
+        <span
+          className={
+            status === "pago"
+              ? "text-green-500 font-medium"
+              : "text-red-500 font-medium"
+          }
+        >
+          {status === "pago" ? "Pago" : "Pendente"}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "createdAt",

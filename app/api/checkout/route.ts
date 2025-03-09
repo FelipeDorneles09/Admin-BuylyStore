@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": `${process.env.ECOMMERCE_STORE_URL}`, // Ajuste isso para permitir apenas domínios específicos em produção
+  "Access-Control-Allow-Origin": `${process.env.NEXT_PUBLIC_SITE_URL}`, // Ajuste isso para permitir apenas domínios específicos em produção
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       shipping_address_collection: {
         allowed_countries: ["BR"],
       },
-      shipping_options: [{ shipping_rate: "shr_1QhGulA2JIivVP5up699euWw" }],
+      shipping_options: [{ shipping_rate: "shr_1R0SpFA2JIivVP5udrBFKQOZ" }],
       line_items: cartItems.map((cartItem: any) => ({
         price_data: {
           currency: "brl",
@@ -47,8 +47,8 @@ export async function POST(req: NextRequest) {
         quantity: cartItem.quantity,
       })),
       client_reference_id: customer.clerkId,
-      success_url: `${process.env.ECOMMERCE_STORE_URL}/payment_success`,
-      cancel_url: `${process.env.ECOMMERCE_STORE_URL}/cart`,
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/payment_success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cart`,
     });
 
     return NextResponse.json(session, { headers: corsHeaders });

@@ -1,12 +1,21 @@
 import mongoose from "mongoose";
 
 const customerSchema = new mongoose.Schema({
-  clerkId: String,
+  clerkId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: String,
   email: String,
-  orders: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
-  },
+  phone: String,
+  cpf: String,
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -15,6 +24,12 @@ const customerSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+// Middleware para atualizar o campo updatedAt antes de salvar
+customerSchema.pre("save", function (next) {
+  this.updatedAt = new Date();
+  next();
 });
 
 const Customer =
