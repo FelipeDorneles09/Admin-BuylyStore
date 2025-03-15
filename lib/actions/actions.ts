@@ -4,7 +4,8 @@ import { connectToDB } from "../mongoDB";
 
 export const getTotalSales = async () => {
   await connectToDB();
-  const orders = await Order.find();
+  // Filtrar apenas pedidos com status "pago"
+  const orders = await Order.find({ status: "pago" });
   const totalOrders = orders.length;
   const totalRevenue = orders
     .reduce((acc, order) => acc + order.totalAmount, 0)
@@ -21,7 +22,8 @@ export const getTotalCustomers = async () => {
 
 export const getSalesPerMonth = async () => {
   await connectToDB();
-  const orders = await Order.find();
+  // Também filtrar por status "pago" aqui
+  const orders = await Order.find({ status: "pago" });
   const salesPerMonth = orders.reduce((acc, order) => {
     const monthIndex = new Date(order.createdAt).getMonth();
     acc[monthIndex] = (acc[monthIndex] || 0) + order.totalAmount;
