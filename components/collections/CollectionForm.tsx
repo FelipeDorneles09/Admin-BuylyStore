@@ -156,7 +156,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
               className="bg-blue-1 text-white"
               onClick={() => router.push("/collections")}
             >
-              Discartar
+              Descartar
             </Button>
           </div>
         </form>
