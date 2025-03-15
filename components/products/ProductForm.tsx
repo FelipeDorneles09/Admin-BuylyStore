@@ -395,7 +395,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               onClick={() => router.push("/products")}
               className="bg-blue-1 text-white"
             >
-              Discartar
+              Descartar
             </Button>
           </div>
         </form>

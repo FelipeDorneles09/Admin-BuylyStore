@@ -157,7 +157,7 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ initialData }) => {
               className="bg-blue-1 text-white"
               onClick={() => router.push("/aboutus")}
             >
-              Discartar
+              Descartar
             </Button>
           </div>
         </form>

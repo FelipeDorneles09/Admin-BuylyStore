@@ -136,7 +136,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               className="bg-blue-1 text-white"
               onClick={() => router.push("/categories")}
             >
-              Discartar
+              Descartar
             </Button>
           </div>
         </form>
