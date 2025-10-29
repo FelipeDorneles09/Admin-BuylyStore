@@ -120,7 +120,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                   <ImageUpload
                     value={field.value ? [field.value] : []}
                     onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange()}
+                    onRemove={() => field.onChange("")}
                   />
                 </FormControl>
                 <FormMessage />

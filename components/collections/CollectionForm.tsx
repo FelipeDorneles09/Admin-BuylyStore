@@ -140,7 +140,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
                   <ImageUpload
                     value={field.value ? [field.value] : []}
                     onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange()}
+                    onRemove={() => field.onChange("")}
                   />
                 </FormControl>
                 <FormMessage />
